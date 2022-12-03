@@ -2,14 +2,11 @@ package com.company;
 
 
 import java.io.*;
-import java.util.ArrayList;
-
-import java.util.LinkedList;
-import java.util.Vector;
+import java.util.*;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         //Ejercicio 1 Array unidimensional Strings
         System.out.println("Ejercicio 1 Array unidimensional: ");
         Arrays arrayUnion = new Arrays();
@@ -78,7 +75,55 @@ public class Main {
         copiarFicheros(new FileInputStream("C:\\Users\\Nicolas\\Desktop\\Devop\\InputStreampractica.txt"),
                 new PrintStream("C:\\Users\\Nicolas\\Desktop\\Devop\\SeguimosProbando.txt"));
 
+
+        //Ejercicio Final
+        System.out.println("\n"+ "Ejercicio final");
+        HashMap<String, Double> hashMap = new HashMap();
+        ArrayList<String> listaProductos = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        boolean ok = false;
+        while(ok != true) {
+            System.out.println("Elije la opcion deseada" + "\n"
+                    + "1 Salir  /  2 guardar producto / 3 Ver fichero guardado por ultima vez");
+            int opcion = scanner.nextInt();
+            switch (opcion) {
+                case 1:
+                    System.out.println("Gracias, hasta luego");
+                    ok = true;
+                    break;
+                case 2:
+                    System.out.println("Escriba producto");
+                    try {
+                        String producto = scanner.next();
+                    System.out.println("Escriba precio");
+                    listaProductos.add(producto);
+                    Double precio = scanner.nextDouble();
+                    scanner.reset();
+                    hashMap.put(producto, precio);
+                    }catch (InputMismatchException e){
+                        System.out.println("Ese no es un precio valido amigo mio " + e.getMessage());
+                        throw (e);
+                    }
+                case 3:
+                    InputStream lectorFichero = new FileInputStream("C:\\Users\\Nicolas\\Desktop\\Devop\\fichero.txt");
+                    BufferedInputStream lectorFicheroBuffer = new BufferedInputStream(lectorFichero);
+                    int lector=lectorFicheroBuffer.read();
+                    while (lector != -1){
+                        System.out.print((char)lector);
+                        lector=lectorFicheroBuffer.read();
+                    } System.out.println("");
+            }
+        }
+        System.out.println("Sus productos actuales son: "+listaProductos);
+        PrintStream imprimeFicheroProductos = new PrintStream("C:\\Users\\Nicolas\\Desktop\\Devop\\fichero.txt");
+        imprimeFicheroProductos.print(listaProductos);
+
     }
+
+
+
+
+    //  -----   FUNCIONES SEPARADAS   ------
 
     public static void copiarFicheros (InputStream fileIn,PrintStream fileOut) throws IOException {
         InputStream lectorFichero = fileIn;
@@ -91,9 +136,6 @@ public class Main {
             dato = lectorFicheroBuffer.read();
         }
     }
-
-
-
 
     public static void dividePorCero(int a, int b) throws ArithmeticException {
         try {
